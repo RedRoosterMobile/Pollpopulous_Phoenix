@@ -19,7 +19,13 @@ defmodule HelloPhoenix.Router do
     get "/", PageController, :index
     get "/hello", HelloController, :index
     get "/hello/:messenger", HelloController, :show
+
+    resources "/polls", PollController
+    get "/vote_here/:url", PollController, :vote_here
+
   end
+
+
 
   # Other scopes may use custom stacks.
   # scope "/api", HelloPhoenix do

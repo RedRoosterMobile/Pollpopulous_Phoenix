@@ -1,8 +1,37 @@
 defmodule HelloPhoenix.PollController do
   use HelloPhoenix.Web, :controller
-  import Inflex
 
   alias HelloPhoenix.Poll
+
+  defmodule MyModule do
+    require Inflex
+    def parameterize_string(abc) do
+      parameterize_string(abc, "_")
+    end
+    def parameterize_string(abc,seperator) do
+      
+      abc
+      |> String.strip
+      |> String.downcase
+
+      result_url =  Enum.map(String.codepoints(abc), fn(x) ->
+        if (byte_size(x)>1) do
+          :iconv.convert("utf-8", "ascii//translit", x)
+          |> String.codepoints()
+          |> Enum.at(byte_size(x) - 1)
+          #Enum.at(String.codepoints(:iconv.convert "utf-8", "ascii//translit", x),byte_size(x) - 1)
+        else
+          x
+        end
+      end)
+
+      result_url
+      |> to_string
+      |> Inflex.parameterize(seperator)
+      |> String.replace(~r[#{seperator}{2,}],seperator)  # No more than one of the separator in a row.
+
+    end
+  end
 
   plug :scrub_params, "poll" when action in [:create, :update]
 
@@ -17,22 +46,7 @@ defmodule HelloPhoenix.PollController do
   end
 
   def create(conn, %{"poll" => poll_params}) do
-    # ----- parameterize start -----
-    abc = poll_params["url"]
-    result_url =  Enum.map(String.codepoints(abc), fn(x) ->
-      if (byte_size(x)>1) do
-        :iconv.convert("utf-8", "ascii//translit", x)
-        |> String.codepoints()
-        |> Enum.at(byte_size(x) - 1)
-        #Enum.at(String.codepoints(:iconv.convert "utf-8", "ascii//translit", x),byte_size(x) - 1)
-      else
-        x
-      end
-    end)
-    parameterized = Inflex.parameterize(to_string(result_url), "_")
-    #todo: remove first and last "_" recursiverly
-    # ----- parameterize end ------
-    #dict = %d{"url" => parameterized}
+    parameterized = MyModule.parameterize_string(poll_params["url"])
     dict = %{
       :url => parameterized,
       :title => poll_params["title"]

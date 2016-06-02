@@ -3,33 +3,34 @@ defmodule HelloPhoenix.PollController do
 
   alias HelloPhoenix.Poll
 
-  defmodule MyModule do
+  #http://stackoverflow.com/questions/37596414/are-iconv-convert-return-values-in-wrong-order
+  defmodule RailsLikeHelpers do
     require Inflex
-    def parameterize_string(abc) do
-      parameterize_string(abc, "_")
-    end
-    def parameterize_string(abc,seperator) do
-      
-      abc
-      |> String.strip
-      |> String.downcase
 
-      result_url =  Enum.map(String.codepoints(abc), fn(x) ->
+    # replace accented chars with their ascii equivalents
+    def transliterate_string(abc) do
+      to_string Enum.map(String.codepoints(abc), fn(x) ->
+        # char by char..
         if (byte_size(x)>1) do
-          :iconv.convert("utf-8", "ascii//translit", x)
+          :iconv.convert("utf-8", "ascii//translit", x) # 'ä' turns to '\"a' !?
           |> String.codepoints()
-          |> Enum.at(byte_size(x) - 1)
-          #Enum.at(String.codepoints(:iconv.convert "utf-8", "ascii//translit", x),byte_size(x) - 1)
+          |> Enum.at(byte_size(x) - 1) # just take last one, which is the real ascii letter
         else
           x
         end
       end)
+    end
 
-      result_url
-      |> to_string
-      |> Inflex.parameterize(seperator)
-      |> String.replace(~r[#{seperator}{2,}],seperator)  # No more than one of the separator in a row.
+    def parameterize_string(abc) do
+      parameterize_string(abc, "_")
+    end
 
+    def parameterize_string(abc,seperator) do
+      abc
+      |> String.strip
+      |> transliterate_string
+      |> Inflex.parameterize(seperator) # turns "Your Momma" into "your_momma"
+      |> String.replace(~r[#{Regex.escape(seperator)}{2,}],seperator)  # No more than one of the separator in a row.
     end
   end
 
@@ -46,7 +47,7 @@ defmodule HelloPhoenix.PollController do
   end
 
   def create(conn, %{"poll" => poll_params}) do
-    parameterized = MyModule.parameterize_string(poll_params["url"])
+    parameterized = RailsLikeHelpers.parameterize_string(poll_params["url"])
     dict = %{
       :url => parameterized,
       :title => poll_params["title"]
@@ -84,7 +85,14 @@ defmodule HelloPhoenix.PollController do
 
   def update(conn, %{"id" => id, "poll" => poll_params}) do
     poll = Repo.get!(Poll, id)
-    changeset = Poll.changeset(poll, poll_params)
+
+    parameterized = RailsLikeHelpers.parameterize_string(poll_params["url"])
+    dict = %{
+      :url => parameterized,
+      :title => poll_params["title"]
+    }
+
+    changeset = Poll.changeset(poll, dict)
 
     case Repo.update(changeset) do
       {:ok, poll} ->

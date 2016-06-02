@@ -33,7 +33,15 @@ class App {
     socket.connect()
     socket.onClose( e => console.log("Closed") )
     console.log(socket);
-    let channel = socket.channel("rooms:lobby", {})
+
+    let pathname = window.location.pathname;
+    let room = 'lobby';
+    if (pathname != '/') {
+      pathname = pathname.replace('/','');
+      room = pathname;
+    }
+    console.log(pathname);
+    let channel = socket.channel("rooms:"+pathname, {})
     channel.join()
       .receive("error", () => console.log("Failed to connect"))
       .receive("ok", () => console.log("Connected!"))

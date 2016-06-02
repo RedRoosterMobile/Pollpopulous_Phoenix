@@ -1,3 +1,16 @@
 <div class="jumbotron">
   <h2>Hello World, from Phoenix!</h2>
 </div>
+<div id="messages"></div>
+
+<br/>
+
+<div class="col-md-2 form-group">
+  <label>Username</label>
+  <input id="username" type="text" class="form-control" />
+</div>
+
+<div class="col-md-6 form-group">
+  <label>Message</label>
+  <input id="message" type="text" class="form-control" />
+</div>

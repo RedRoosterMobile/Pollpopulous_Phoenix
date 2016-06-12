@@ -71,11 +71,6 @@ defmodule HelloPhoenix.RoomChannel do
         end
         IO.puts poll_id
         # ------
-        dict2 = %{
-          :created_by => msg["nickname"],
-          :name => msg["candidate"],
-          :poll_id => poll_id
-        }
 
         # http://stackoverflow.com/questions/36254866/insert-ecto-model-with-already-existing-model-as-an-association
         # http://stackoverflow.com/questions/30584276/mixing-scopes-and-associations-in-phoenix-ecto
@@ -87,8 +82,9 @@ defmodule HelloPhoenix.RoomChannel do
         # http://www.phoenixframework.org/docs/ecto-models
         # plain old insert:
         # INSERT INTO Candidates (created_by,name,poll_id) VALUES (msg["nickname"],msg["candidate"],poll_id);
+        # https://hexdocs.pm/ecto/Ecto.Changeset.html
 
-        changeset = Candidate.changeset(%Candidate{}, dict2)
+        changeset = %Candidate{created_by: msg["nickname"], name: msg["candidate"], poll_id: poll_id}
         IO.puts "got here after changeset!!!"
         IO.inspect changeset
         case Repo.insert(changeset) do

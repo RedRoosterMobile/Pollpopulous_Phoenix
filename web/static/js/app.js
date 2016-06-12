@@ -22,6 +22,7 @@ import "phoenix_html"
 
 import $ from "jquery"
 import angular from "angular"
+import angularAnimate from "angular-animate"
 
 import {Socket} from "phoenix"
 // coffescript

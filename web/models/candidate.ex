@@ -1,15 +1,18 @@
-defmodule HelloPhoenix.Poll do
+defmodule HelloPhoenix.Candidate do
   use HelloPhoenix.Web, :model
 
-  schema "polls" do
-    field :title, :string
-    field :url, :string
-    has_many :candidates, HelloPhoenix.Candidate, on_delete: :delete_all
-    has_many :votes, HelloPhoenix.Vote
+  schema "candidates" do
+    field :name, :string
+    field :created_by, :string
+    #has_one?
+    belongs_to :poll, HelloPhoenix.Poll, foreign_key: :poll_id
+    # field :poll_id, :integer, references(:poll)
+    has_many :votes, HelloPhoenix.Vote, on_delete: :delete_all
+
     timestamps
   end
 
-  @required_fields ~w(title url)
+  @required_fields ~w(name created_by poll)
   @optional_fields ~w()
 
   @doc """

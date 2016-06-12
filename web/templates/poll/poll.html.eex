@@ -1,0 +1,34 @@
+<h2>Show poll (vote mode)</h2>
+<div id="messages"></div>
+
+<br/>
+
+<div class="col-md-2 form-group">
+  <label>Username</label>
+  <input id="username" type="text" class="form-control" />
+</div>
+
+<div class="col-md-6 form-group">
+  <label>Message</label>
+  <input id="message" type="text" class="form-control" />
+</div>
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @poll.title %>
+  </li>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @poll.url %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: poll_path(@conn, :edit, @poll) %>
+<%= link "Back", to: poll_path(@conn, :index) %>
+
+<input type="text" id ="candidate" name="candidate" value=""class="form-control">
+<button id="addCandidate" type="button" name="button" >addCandidate</button>
+<button id="vote" type="button" name="button" >Vote</button>

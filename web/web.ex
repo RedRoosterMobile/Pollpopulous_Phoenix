@@ -31,6 +31,7 @@ defmodule HelloPhoenix.Web do
       use Phoenix.Controller
 
       alias HelloPhoenix.Repo
+      alias HelloPhoenix.Poll
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
@@ -66,8 +67,13 @@ defmodule HelloPhoenix.Web do
       use Phoenix.Channel
 
       alias HelloPhoenix.Repo
+      alias HelloPhoenix.Poll
+      alias HelloPhoenix.Candidate
+      alias HelloPhoenix.Vote
+      
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
+
       import HelloPhoenix.Gettext
     end
   end

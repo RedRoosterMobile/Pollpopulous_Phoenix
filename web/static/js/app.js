@@ -28,6 +28,9 @@ class App {
     let $message  = $("#message")
     let $username = $("#username")
     let $messages = $("#messages")
+    let $candidateButton = $("#addCandidate")
+    let $candidate = $("#candidate")
+    let $voteButton = $("#vote")
 
     let socket = new Socket("/socket")
     socket.connect()
@@ -36,7 +39,9 @@ class App {
 
     let pathname = window.location.pathname;
     let room = 'lobby';
-    if (pathname != '/') {
+    let splitPath = pathname.split('/');
+    pathname = splitPath[splitPath.length-1]
+    if (pathname.length > 1 ){
       pathname = pathname.replace('/','');
       room = pathname;
     }
@@ -47,6 +52,29 @@ class App {
       .receive("ok", () => console.log("Connected!"))
 
     channel.on("new:message", msg => this.appendMessage(msg))
+
+    if ($candidateButton) {
+      $candidateButton.on('click', e => {
+        console.log('addCandidate'+ $candidate.val());
+        channel.push("pp:add_candidate", {
+          nickname: $username.val(),
+          candidate: $candidate.val(),
+          poll: room
+        })
+        console.log('addedCandidate');
+      })
+    }
+    if ($voteButton) {
+      $voteButton.on('click', e => {
+        console.log('voting for candidate'+ $candidate.val() + ' on room ' + room);
+        channel.push("pp:vote_for_candidate", {
+          nickname: $username.val(),
+          candidate: $candidate.val(),
+          poll: room
+        })
+        console.log('addedCandidate');
+      })
+    }
 
     $message
       .off("keypress")

@@ -9,16 +9,7 @@ defmodule HelloPhoenix.PollController do
 
     # replace accented chars with their ascii equivalents
     def transliterate_string(abc) do
-      to_string Enum.map(String.codepoints(abc), fn(x) ->
-        # char by char..
-        if (byte_size(x)>1) do
-          :iconv.convert("utf-8", "ascii//translit", x) # 'ä' turns to '\"a' !?
-          |> String.codepoints()
-          |> Enum.at(byte_size(x) - 1) # just take last one, which is the real ascii letter
-        else
-          x
-        end
-      end)
+      :iconv.convert("utf-8", "ascii//translit", String.normalize(abc))
     end
 
     def parameterize_string(abc) do
@@ -69,7 +60,7 @@ defmodule HelloPhoenix.PollController do
     # http://www.phoenixframework.org/docs/ecto-models
     poll = Repo.get_by!(Poll, url: String.downcase(url))
     #todo: render different template with chat on it
-    render(conn, "show.html", poll: poll)
+    render(conn, "poll.html", poll: poll)
   end
 
   def show(conn, %{"id" => id}) do

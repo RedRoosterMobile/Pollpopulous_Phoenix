@@ -20,6 +20,8 @@ import "phoenix_html"
 
 //import socket from "./socket"
 
+import $ from "jquery"
+import angular from "angular"
 
 import {Socket} from "phoenix"
 // coffescript

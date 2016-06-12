@@ -43,7 +43,6 @@ defmodule HelloPhoenix.RoomChannel do
     {:noreply, socket}
   end
 
-
   def handle_in("pp:add_candidate", msg, socket) do
       IO.inspect msg
       IO.puts msg["candidate"]
@@ -84,12 +83,17 @@ defmodule HelloPhoenix.RoomChannel do
         # INSERT INTO Candidates (created_by,name,poll_id) VALUES (msg["nickname"],msg["candidate"],poll_id);
         # https://hexdocs.pm/ecto/Ecto.Changeset.html
 
-        changeset = %Candidate{created_by: msg["nickname"], name: msg["candidate"], poll_id: poll_id}
+        changeset = %Candidate{
+          created_by: msg["nickname"],
+          name: msg["candidate"],
+          poll_id: poll_id
+        }
         IO.puts "got here after changeset!!!"
         IO.inspect changeset
         case Repo.insert(changeset) do
           {:ok, _candidate} ->
             IO.puts("success saving")
+            # todo: send event to frontend
           {:error, changeset} ->
             IO.puts("failed saving")
         end

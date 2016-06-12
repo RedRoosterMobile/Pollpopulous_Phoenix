@@ -22,7 +22,8 @@ import "phoenix_html"
 
 
 import {Socket} from "phoenix"
-
+// coffescript
+// http://www.phoenixframework.org/docs/static-assets
 class App {
   static init() {
     let $message  = $("#message")

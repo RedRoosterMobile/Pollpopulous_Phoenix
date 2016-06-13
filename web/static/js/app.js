@@ -22,13 +22,14 @@ import "phoenix_html"
 
 import $ from "jquery"
 import angular from "angular"
-import angularAnimate from "angular-animate"
+import "angular-animate"
 
 import {Socket} from "phoenix"
 // coffescript
 // http://www.phoenixframework.org/docs/static-assets
 class App {
   static init() {
+    // todo: just manually bootstrap an app, depending on page
     let $message  = $("#message")
     let $username = $("#username")
     let $messages = $("#messages")
@@ -56,6 +57,7 @@ class App {
       .receive("ok", () => console.log("Connected!"))
 
     channel.on("new:message", msg => this.appendMessage(msg))
+    channel.on("new:candidate", msg => this.appendCandidate(msg))
 
     if ($candidateButton) {
       $candidateButton.on('click', e => {
@@ -102,6 +104,12 @@ class App {
 
     $messages.append(`<p><b>[${username}]</b>: ${messageBody}</p>`)
   }
+
+  static appendCandidate(message) {
+    console.log('new:candidate');
+    console.log(message);
+  }
+
 }
 
 $( () => App.init() )

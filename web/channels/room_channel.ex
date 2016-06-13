@@ -90,14 +90,24 @@ defmodule HelloPhoenix.RoomChannel do
         }
         IO.puts "got here after changeset!!!"
         IO.inspect changeset
+
         case Repo.insert(changeset) do
-          {:ok, _candidate} ->
+          {:ok, candidate} ->
             IO.puts("success saving")
-            # todo: send event to frontend
+            IO.inspect candidate
+            # send event to frontend attributes of last candidate
+            broadcast! socket, "new:candidate", %{
+              created_by: candidate.created_by,
+              name: candidate.name,
+              poll_id: poll_id,
+              id: candidate.id
+            }
           {:error, changeset} ->
             IO.puts("failed saving")
         end
       end
+
+      # annalytics: https://github.com/stueccles/analytics-elixir/
 
       # get all candidates
       #candidates = @poll.candidates.push(Candidate.new(name: message[:name]))

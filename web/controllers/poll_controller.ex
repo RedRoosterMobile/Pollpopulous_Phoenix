@@ -56,9 +56,12 @@ defmodule HelloPhoenix.PollController do
     end
   end
 
+  # http://stackoverflow.com/questions/37786889/how-to-do-nested-preload-of-models-in-phoenix-framework
   def vote_here(conn, %{"url" => url}) do
     # http://www.phoenixframework.org/docs/ecto-models
-    poll = Repo.get_by!(Poll, url: String.downcase(url)) |> Repo.preload([:candidates])
+    poll = Repo.get_by!(Poll, url: String.downcase(url))
+    |> Repo.preload([:candidates])
+    |> Repo.preload([:votes])
     #todo: render different template with chat on it
     render(conn, "poll.html", poll: poll)
   end

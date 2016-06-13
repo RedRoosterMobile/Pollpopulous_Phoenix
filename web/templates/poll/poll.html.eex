@@ -20,7 +20,7 @@
 
 <div class="candidates">
   <%= for candi <- @poll.candidates do %>
-    <p><%= candi.id %>, <%= candi.name %></p>
+    <p><%= candi.id %>, <%= candi.name %>, <%# Enum.count(candi.votes) %></p>
   <% end %>
 </div>
 

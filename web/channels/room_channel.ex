@@ -125,11 +125,12 @@ defmodule HelloPhoenix.RoomChannel do
       msg["candidate"]
       # msg["poll_name"]
 
+# http://stackoverflow.com/questions/33710272/preload-all-relationships
       candi = (
         Candidate
         |> Repo.get_by(name: msg["candidate"])
         |> Repo.preload([:poll])
-        |> Repo.preload([:votes]) 
+        #|> Repo.preload([:votes]) 
       )
       if candi do
         IO.puts "candidate found"

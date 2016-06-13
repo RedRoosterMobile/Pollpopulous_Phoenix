@@ -1,4 +1,4 @@
-<div ng-app="arsch">
+<!--div ng-app="arsch">
   <div id="ctrl-as-exmpl" ng-controller="SettingsController1 as settings">
     <label>Name: <input type="text" ng-model="settings.name"/></label>
     <button ng-click="settings.greet()">greet</button><br/>
@@ -16,7 +16,14 @@
       <li><button ng-click="settings.addContact()">add</button></li>
    </ul>
   </div>
+</div-->
+
+<div class="candidates">
+  <%= for candi <- @poll.candidates do %>
+    <p><%= candi.id %>, <%= candi.name %></p>
+  <% end %>
 </div>
+
 <h2>Show poll (vote mode)</h2>
 <div id="messages"></div>
 

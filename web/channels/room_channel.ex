@@ -125,7 +125,12 @@ defmodule HelloPhoenix.RoomChannel do
       msg["candidate"]
       # msg["poll_name"]
 
-      candi = (Candidate |> Repo.get_by(name: msg["candidate"]) |> Repo.preload([:poll]) )
+      candi = (
+        Candidate
+        |> Repo.get_by(name: msg["candidate"])
+        |> Repo.preload([:poll])
+        |> Repo.preload([:votes]) 
+      )
       if candi do
         IO.puts "candidate found"
         IO.inspect candi

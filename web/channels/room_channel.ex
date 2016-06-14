@@ -173,11 +173,11 @@ defmodule HelloPhoenix.RoomChannel do
                   nickname: new_vote.nickname,
                 }
               }
-              {:noreply, socket}
+              {:reply, {:ok, %{message: "vote added"}}, socket}
             {:error, changeset} ->
               {:error, %{reason: "could not add to db"}}
               unless vote do
-                {:noreply, socket}
+                {:reply, {:error, %{message: "could not add to db"}}, socket}
               end
           end
           # candidate_id = message[:candidate_id]
@@ -193,14 +193,38 @@ defmodule HelloPhoenix.RoomChannel do
       else
         IO.puts "candidate not found"
         {:error, %{reason: "candidate not found"}}
-        {:noreply, socket}
+        {:reply, {:error, %{message: "candidate not found"}}, socket}
       end
       #if (Vote |> Repo.get_by(name: msg["candidate"])) do
       #end
       #{:noreply, socket}
   end
 
-  #def handle_in("pp:revoke_vote", payload, socket) do end
+  def handle_in("pp:revoke_vote", msg, socket) do
+    msg["nickname"]
+    msg["vote_id"]
+    msg["candidate_id"]
+    vote = Vote
+    |> Repo.get_by(
+      id: msg["vote_id"],
+      nickname: msg["nickname"],
+      candidate_id: msg["candidate_id"]
+    )
+    if vote do
+      Repo.delete!(vote)
+      broadcast! socket, "revoked_vote", %{
+        candidate_id: msg["candidate_id"],
+        vote: %{
+          id: msg["vote_id"],
+          nickname: msg["nickname"],
+          candidate_id: msg["candidate_id"]
+        }
+      }
+      {:reply, {:ok, %{message: "vote deleted"}}, socket}
+    else
+      {:reply, {:error, %{message: "not your vote"}}, socket}
+    end
+  end
 
   #def handle_in("pp:vote_for_candidate", payload, socket) do end
 

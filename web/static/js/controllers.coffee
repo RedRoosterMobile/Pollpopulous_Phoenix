@@ -211,7 +211,11 @@
               poll_id: $scope.data.poll_id
               candidate_id: option.id
               url: url[0]
-            dispatcher.trigger 'poll.revoke_vote', message, wsSuccess, wsFailure
+            #dispatcher.trigger 'pp:revoke_vote', message, wsSuccess, wsFailure
+            channel.push "pp:revoke_vote", message
+            .receive("ok", (msg) -> console.log "created message", msg )
+            .receive("error", (reasons) -> wsFailure reasons )
+            .receive("timeout", () -> console.log "Networking issue..." )
             return
           else if option.votes.length > 0
             $timeout ->

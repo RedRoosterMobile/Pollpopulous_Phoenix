@@ -231,12 +231,19 @@
           # todo: min nickname length
           title = $scope.data.optionName.trim()
           nickname = $scope.data.nickname.trim()
+          console.log title
+          console.log nickname
           if title? and nickname? and nickname != '' and title != ''
             message =
               url: url
               poll_id: $scope.data.poll_id
               name: title
-            dispatcher.trigger 'poll.add_option', message, wsSuccess, wsFailure
+              nickname: nickname
+            #dispatcher.trigger 'poll.add_option', message, wsSuccess, wsFailure
+            channel.push "pp:add_candidate", message
+            .receive("ok", (msg) -> console.log "created message", msg )
+            .receive("error", (reasons) -> wsFailure reasons )
+            .receive("timeout", () -> console.log "Networking issue..." )
           else if title? or title == ''
             console.log 'define option title first '
             $timeout ->

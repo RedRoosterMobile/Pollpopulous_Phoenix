@@ -15,7 +15,7 @@
             <form id='add_candidate_form' ng-submit='addOption()' role='form'>
               <div class='form-group'>
                 <label for='candidate_title'>Option</label>
-                <input class='form-control' id='candidate_title'>
+                <input class='form-control' id='candidate_title' ng-model='data.optionName' placeholder='Persian Pizza Prince' type='text'>
                 <label>Name</label>
                 <input class='form-control' id='nickname' name='nickname' ng-disabled='data.knownSender' ng-model='data.nickname' placeholder='your name' type='text'>
               </div>

@@ -9,7 +9,8 @@ defmodule HelloPhoenix.PollController do
 
     # replace accented chars with their ascii equivalents
     def transliterate_string(abc) do
-      :iconv.convert("utf-8", "ascii//translit", String.normalize(abc))
+      #:iconv.convert("utf-8", "ascii//translit", String.normalize(abc))
+      :iconv.convert("utf-8", "ascii//translit", abc)
     end
 
     def parameterize_string(abc) do

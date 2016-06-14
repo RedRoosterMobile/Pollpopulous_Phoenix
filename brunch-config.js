@@ -78,7 +78,7 @@ exports.config = {
       "angular-ui-bootstrap",
       "d3",
       "nvd3",
-      "angularjs-nvd3-directives"
+      "angular-nvd3"
     ]
   }
 };

@@ -20,16 +20,19 @@ import "phoenix_html"
 
 //import socket from "./socket"
 
-import $ from "jquery"
+// import $ from "jquery"
+//import * as bootstrap from './bootstrap.min';
 import angular from "angular"
 import "angular-animate"
+import "d3"
+import "nvd3"
 
 import "angular-ui-bootstrap"
-import "angularjs-nvd3-directives"
+import "angular-nvd3"
 
-import * as controllers from './controllers';
-import * as directives from './directives';
-import * as services from './services';
+import * as controllers from './controllers'
+import * as directives from './directives'
+import * as services from './services'
 
 
 import {Socket} from "phoenix"

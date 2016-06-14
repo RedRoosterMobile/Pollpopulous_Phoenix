@@ -1,0 +1,41 @@
+@import 'mixins';
+
+// svg stuff
+svg {
+  .red-foreground-stop1 {
+    stop-color: #fff4f3;
+    stop-opacity: 1;
+  }
+  .red-foreground-stop2 {
+    stop-color: #ffbdb5;
+    stop-opacity: 1;
+  }
+
+  .purple-background-stop1 {
+    stop-color: #c7cbf6;
+    stop-opacity: 1;
+  }
+  .purple-background-stop2 {
+    stop-color: #a8aff1;
+    stop-opacity: 1;
+  }
+}
+
+.nvtooltip {
+  color: #000000;
+  font-size: 5px;
+}
+
+.donut-chart {
+  // @include box-shadow(3px, 3px, 10px, #666);
+  svg {
+    //width: 200px;
+    //height: 200px;
+  }
+}
+
+// end svg stuff
+
+.chart-holder {
+  position: absolute;
+}

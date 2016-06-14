@@ -3,7 +3,23 @@
     <div class='well'>
       <div class='row'>
         <div class='col-md-2 hidden-xs'>
-          <!--nvd3-pie-chart class='donut-chart' color='color()' data='data.candidates' donut='true' donutlabelsoutside='false' donutratio='.3' height='300' labeltype='percent' margin='{left:0,top:0,bottom:0,right:0}' objectequality='true' showlabels='false' tooltips='true' transitionduration='500' width='300' x='descriptionFunction()' y='voteCount()'>
+          <nvd3 class="donut-chart" options="options" data="data.candidates"></nvd3>
+          <!--nvd3-pie-chart
+          class='donut-chart'
+          color='color()'
+          data='data.candidates'
+          donut='true'
+          donutlabelsoutside='false'
+          donutratio='.3'
+          height='300'
+          labeltype='percent'
+          margin='{left:0,top:0,bottom:0,right:0}'
+          objectequality='true'
+          showlabels='false'
+          tooltips='true'
+          transitionduration='500'
+          width='300'
+          x='descriptionFunction()' y='voteCount()'>
             <svg height='300'></svg>
           </nvd3-pie-chart-->
         </div>
@@ -24,7 +40,7 @@
           </div>
         </div>
         <div class='col-md-5 col-sm-4 hidden-xs'>
-          <!--mm-giphy api-key="{{'dc6zaTOxFJmzC'}}" keywords='data.keywords' pipeline='{{"stickers"}}' speed-ms='{{3000}}' title="{{'So Hungry!'}}"></mm-giphy>-->
+          <mm-giphy api-key="{{'dc6zaTOxFJmzC'}}" keywords='data.keywords' pipeline='{{"stickers"}}' speed-ms='{{3000}}' title="{{'So Hungry!'}}"></mm-giphy>
         </div>
       </div>
       <!-- <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert> -->

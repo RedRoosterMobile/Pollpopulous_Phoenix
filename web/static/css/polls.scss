@@ -1,0 +1,158 @@
+// Place all the styles related to the Polls controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'mixins';
+
+input {
+  color: #000000;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background-color: #108a93;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    background-color: #108a93;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -30px;
+    background-image: url('/animated_launch_day.svg');
+    opacity: .75;
+    // get the fuck back!
+    z-index: -1;
+  }
+  &.rolling::before {
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    @include scale-rotate(.8, 0);
+    @include animation(spin 222s linear infinite);
+  }
+}
+
+@include keyframes('spin') {
+  100% {
+    @include scale-rotate(.8, 360);
+  }
+}
+
+.cloud {
+  background: url('/cloud.svg');
+  background-size: 100%;
+  width: 300px;
+  height: 300px;
+
+  .spacer {
+    margin: 50px;
+    > * {
+      text-shadow: 2px 2px #ff0000;
+    }
+  }
+
+}
+
+//http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html
+.animation {
+  @include transition(1s);
+
+  &.ng-enter {
+    opacity: 0;
+    &.ng-enter-active {
+      opacity: 1;
+    }
+  }
+
+  &.ng-leave {
+    opacity: 1;
+  }
+
+  //when clicked close() or alert is dropped off the array
+  &.ng-leave-active {
+    opacity: 0;
+    @include transform-origin('0 0');
+    @include animation('bounceOut ease 4s 1');
+  }
+}
+
+// http://www.markskowrondesign.com/blog/are-your-css3-animations-broken-in-ie10-and-ie11/
+@include keyframes(bounceOut) {
+  0% {
+    opacity: 1;
+    @include translate(0, 0);
+  }
+  20% {
+    opacity: 1;
+    @include translate(20px, 0);
+  }
+  100% {
+    opacity: 0;
+    @include translate(-1000px, 0);
+  }
+}
+
+//  http://www.cssanimate.com/
+.alert-box {
+  top: 0;
+  left: 0;
+  max-width: 50%;
+  min-width: 300px;
+  padding: 15px;
+  position: fixed;
+}
+
+$sort-animation-speed: .2s;
+// keep in sync with svg-pie
+$star-animation-speed: .5s;
+
+.list-group-item {
+  background-color: rgba(19, 160, 170, .5);
+
+  @include transition($sort-animation-speed);
+
+  &.ng-move {
+    background: rgba(255, 215, 0, .8);
+  }
+
+  &.ng-move-active {
+    //background: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.glyphicon-star-empty {
+  color: gold;
+  @include transition($star-animation-speed);
+  opacity: 1;
+
+  @include animation-timing-function(ease-in);
+
+  &.ng-enter {
+    @include translate-rotate(100px, 0, 360);
+    color: #90ee90;
+    opacity: .1;
+
+    &.ng-enter-active {
+      color: #add8e6;
+      opacity: 1;
+      @include translate(0, 0);
+    }
+  }
+
+  &.ng-leave {
+    @include translate(-100px, 0);
+    opacity: 0;
+  }
+
+}
+
+.well {
+  background-color: rgba(13, 116, 124, .5);
+  h1 {
+    margin-top: 32px;
+  }
+}

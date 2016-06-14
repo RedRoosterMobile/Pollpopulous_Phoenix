@@ -1,7 +1,8 @@
 ((window, angular) ->
 
   controllers = angular.module('Pollpopulous.controllers', [
-    'nvd3ChartDirectives'
+    #'nvd3ChartDirectives'
+    'nvd3'
     #'ngAudio'
     'ngAnimate'
   ])
@@ -86,6 +87,30 @@
         $scope.data.optionName = ''
         $scope.data.candidates = msg
         $scope.data.poll_id = poll_id
+
+
+        # pie chart http://plnkr.co/edit/XDxgrCmNY7HAhJtsbsOl?p=preview
+        $scope.options = chart:
+          type: 'pieChart'
+          #color: $scope.color()
+          x: $scope.descriptionFunction()
+          y: $scope.voteCount()
+          showLabels: false
+          labeltype: 'percent'
+          donut: true
+          labelsOutside: false
+          showLegend: false
+          objectequality: true
+          donutratio: 0.3
+          duration: 500
+          tooltips: true
+          legend: margin:
+            top: 0
+            right: 0
+            bottom: 0
+            left: 0
+
+
         storedNickname = localStorage.getItem('nickname')
         if storedNickname and storedNickname.length > 0
           $scope.data.nickname = storedNickname

@@ -65,6 +65,8 @@ directives.directive 'mmGiphy', [
         playing = false
         return
 
+      #console.log element
+      #console.log $(element)
       element.click ->
         if playing then stopShow() else startShow()
       return

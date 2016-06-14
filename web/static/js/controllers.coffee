@@ -192,6 +192,9 @@
               poll_id: $scope.data.poll_id
             #dispatcher.trigger 'poll.vote_on', message, wsSuccess, wsFailure
             channel.push "pp:vote_for_candidate", message
+            .receive("ok", (msg) -> console.log "created message", msg )
+            .receive("error", (reasons) -> wsFailure reasons )
+            .receive("timeout", () -> console.log "Networking issue..." )
           else
             $timeout ->
               wsFailure message: 'define your nickname first'

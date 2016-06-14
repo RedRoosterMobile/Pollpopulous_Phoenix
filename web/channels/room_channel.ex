@@ -144,13 +144,12 @@ defmodule HelloPhoenix.RoomChannel do
 
         if vote do
           IO.puts "you've already voted for this poll"
-          {:error, %{reason: "you've already voted for this poll"}}
+          {:reply, {:error, %{message: "you've already voted for this poll"}}, socket}
+          #{:reply, {:error, %{message: "you've already voted for this poll"}}, socket}
+          #{:error, %{reason: "you've already voted for this poll"} }
         else
           IO.puts "no vote found for candidate"
           # create vote on poll
-          dict = %{
-
-          }
           changeset = %Vote{
             nickname: msg["nickname"],
             candidate_id: msg["candidate_id"],
@@ -174,8 +173,12 @@ defmodule HelloPhoenix.RoomChannel do
                   nickname: new_vote.nickname,
                 }
               }
+              {:noreply, socket}
             {:error, changeset} ->
               {:error, %{reason: "could not add to db"}}
+              unless vote do
+                {:noreply, socket}
+              end
           end
           # candidate_id = message[:candidate_id]
           # @new_vote = Vote.new(poll_id: @poll.id, candidate_id: candidate_id, nickname: message[:nickname])
@@ -190,10 +193,11 @@ defmodule HelloPhoenix.RoomChannel do
       else
         IO.puts "candidate not found"
         {:error, %{reason: "candidate not found"}}
+        {:noreply, socket}
       end
       #if (Vote |> Repo.get_by(name: msg["candidate"])) do
       #end
-      {:noreply, socket}
+      #{:noreply, socket}
   end
 
   #def handle_in("pp:revoke_vote", payload, socket) do end

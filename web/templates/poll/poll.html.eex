@@ -1,3 +1,60 @@
+<div class='pollpopulous' ng-init="init(<%=@candidates%>,<%=@poll.id%>)" ng-controller="mainController">
+  <div class='row'>
+    <div class='well'>
+      <div class='row'>
+        <div class='col-md-2 hidden-xs'>
+          <!--nvd3-pie-chart class='donut-chart' color='color()' data='data.candidates' donut='true' donutlabelsoutside='false' donutratio='.3' height='300' labeltype='percent' margin='{left:0,top:0,bottom:0,right:0}' objectequality='true' showlabels='false' tooltips='true' transitionduration='500' width='300' x='descriptionFunction()' y='voteCount()'>
+            <svg height='300'></svg>
+          </nvd3-pie-chart-->
+        </div>
+        <div class='col-md-2'>
+          <h1></h1>
+        </div>
+        <div class='col-md-3 col-sm-4 col-xs-10'>
+          <div class='row'>
+            <form id='add_candidate_form' ng-submit='addOption()' role='form'>
+              <div class='form-group'>
+                <label for='candidate_title'>Option</label>
+                <input class='form-control' id='candidate_title'>
+                <label>Name</label>
+                <input class='form-control' id='nickname' name='nickname' ng-disabled='data.knownSender' ng-model='data.nickname' placeholder='your name' type='text'>
+              </div>
+              <button class='btn btn-default' type='submit'>Add new option</button>
+            </form>
+          </div>
+        </div>
+        <div class='col-md-5 col-sm-4 hidden-xs'>
+          <!--mm-giphy api-key="{{'dc6zaTOxFJmzC'}}" keywords='data.keywords' pipeline='{{"stickers"}}' speed-ms='{{3000}}' title="{{'So Hungry!'}}"></mm-giphy>-->
+        </div>
+      </div>
+      <!-- <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert> -->
+      <mm-alert-box></mm-alert-box>
+    </div>
+  </div>
+  <div class='list-group'>
+    <div class='list-group-item' ng-repeat="option in data.candidates | orderBy: '-votes.length'">
+      <div class='row'>
+        <div class='col-sm-9'>
+          <h4 class='list-group-item-heading'>
+            {{option.name}}
+          </h4>
+          <p class='list-group-item-text'>
+            Votes:
+            <span class='glyphicon glyphicon-star-empty' ng-repeat='vote in option.votes'></span>
+          </p>
+        </div>
+        <div class='col-sm-3'>
+          <div class='btn-group clearfix' style='float:right;'>
+            <a class='btn btn-primary btn-xs vote' ng-click='vote(option.id)'>Vote here</a>
+            <a class='btn btn-default btn-xs revoke' ng-click='revokeVote(option,$index)'>Revoke Vote</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!--div ng-app="arsch">
   <div id="ctrl-as-exmpl" ng-controller="SettingsController1 as settings">
     <label>Name: <input type="text" ng-model="settings.name"/></label>
@@ -17,10 +74,10 @@
    </ul>
   </div>
 </div-->
-
+<!--
 <div class="candidates">
   <%= for candi <- @poll.candidates do %>
-    <p><%= candi.id %>, <%= candi.name %>, <%# Enum.count(candi.votes) %></p>
+    <p><%= candi.id %>, <%= candi.name %>, <%= Enum.count(candi.votes) %> <a onclick="vote(<%=candi.id%>)">Vote</a></p>
   <% end %>
 </div>
 
@@ -58,3 +115,4 @@
 <input type="text" id ="candidate" name="candidate" value=""class="form-control">
 <button id="addCandidate" type="button" name="button" >addCandidate</button>
 <button id="vote" type="button" name="button" >Vote</button>
+-->

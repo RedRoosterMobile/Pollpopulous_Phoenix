@@ -60,10 +60,12 @@ defmodule HelloPhoenix.PollController do
   def vote_here(conn, %{"url" => url}) do
     # http://www.phoenixframework.org/docs/ecto-models
     poll = Repo.get_by!(Poll, url: String.downcase(url))
-    |> Repo.preload([:candidates])
-    |> Repo.preload([:votes])
+    |> Repo.preload([candidates: [:votes]])
     #todo: render different template with chat on it
-    render(conn, "poll.html", poll: poll)
+    {status, result} = JSON.encode(poll.candidates)
+    String.length(result)
+
+    render(conn, "poll.html", candidates: result, poll: poll)
   end
 
   def show(conn, %{"id" => id}) do

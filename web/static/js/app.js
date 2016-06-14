@@ -24,11 +24,38 @@ import $ from "jquery"
 import angular from "angular"
 import "angular-animate"
 
+import "angular-ui-bootstrap"
+import "angularjs-nvd3-directives"
+
+import * as controllers from './controllers';
+import * as directives from './directives';
+import * as services from './services';
+
+
 import {Socket} from "phoenix"
 // coffescript
 // http://www.phoenixframework.org/docs/static-assets
 class App {
   static init() {
+
+    // import madness es6 to coffee
+    window.Socket = Socket;
+    window.$ = $;
+    let p=$('.pollpopulous');
+    if (p.length>0) {
+      let coverEditor = angular.module('Pollpopulous', [
+        //'templates',
+        'ui.bootstrap',
+        'Pollpopulous.controllers',
+        'Pollpopulous.directives',
+        'Pollpopulous.services',
+        'ngAnimate',
+      ])
+      console.log(p);
+      angular.bootstrap ($('.pollpopulous')[0], [ 'Pollpopulous' ]);
+      console.log(p);
+    }
+    return
     // todo: just manually bootstrap an app, depending on page
     let $message  = $("#message")
     let $username = $("#username")
@@ -82,6 +109,7 @@ class App {
       })
     }
 
+
     $message
       .off("keypress")
       .on("keypress", e => {
@@ -103,6 +131,10 @@ class App {
     let messageBody  = this.sanitize(message.body)
 
     $messages.append(`<p><b>[${username}]</b>: ${messageBody}</p>`)
+  }
+
+  static vote(candidate_id) {
+    console.log(candidate_id);
   }
 
   static appendCandidate(message) {

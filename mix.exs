@@ -19,7 +19,7 @@ defmodule HelloPhoenix.Mixfile do
   def application do
     [mod: {HelloPhoenix, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :iconv]]
+                    :phoenix_ecto, :postgrex, :iconv, :json]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,7 +38,8 @@ defmodule HelloPhoenix.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:inflex, "~> 1.5.0"},
-     {:iconv, "~> 1.0"}]
+     {:iconv, "~> 1.0"},
+     {:json,   "~> 0.3.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

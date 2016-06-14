@@ -3,18 +3,19 @@
   controllers = angular.module('Pollpopulous.controllers', [
     #'nvd3ChartDirectives'
     'nvd3'
-    #'ngAudio'
+    'ngAudio'
     'ngAnimate'
   ])
   controllers.controller 'mainController', [
     '$scope'
     '$http'
     '$timeout'
-    #'ngAudio'
+    'ngAudio'
     'mmModernizr'
-    ($scope, $http, $timeout, modernizr) ->
+    ($scope, $http, $timeout, $ngAudio, modernizr) ->
       # https://gist.github.com/danielgtaylor/0b60c2ed1f069f118562
 
+      # sounds super shitty on elixir???????
       # fnord: on ios, only last loaded sound will play
       $scope.sfxOverAndOut = $ngAudio.load('/overandout_long.wav') if modernizr.audio
       $scope.sfxBlip = $ngAudio.load('/blip.wav') if modernizr.audio

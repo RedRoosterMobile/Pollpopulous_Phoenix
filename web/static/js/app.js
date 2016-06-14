@@ -27,7 +27,9 @@ import "angular-animate"
 import "d3"
 import "nvd3"
 
-import "angular-ui-bootstrap"
+import * as ngAudio from "./angular.audio"
+//import "angular-ui-bootstrap"
+import * as ui from "./angular.ui.bootstrap"
 import "angular-nvd3"
 
 import * as controllers from './controllers'
@@ -57,6 +59,17 @@ class App {
             console.log('good ratio!');
         }
     };
+
+    // fuck this, go back to static fullscreen bg
+    /*
+    $( window ).scroll(function(event) {
+      console.log(event);
+      console.log($('body').last().offset());
+      console.log($(".list-group-item-text").last().offset());
+    });
+    */
+
+
     $(window).resize(ratioHandler);
     ratioHandler();
 

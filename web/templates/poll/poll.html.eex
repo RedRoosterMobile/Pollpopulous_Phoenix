@@ -1,3 +1,5 @@
+
+
 <div class='pollpopulous' ng-init="init(<%=@candidates%>,<%=@poll.id%>)" ng-controller="mainController">
   <div class='row'>
     <div class='well'>

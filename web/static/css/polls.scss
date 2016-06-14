@@ -8,11 +8,12 @@ input {
 }
 
 body {
+
   height: 100%;
   width: 100%;
   background-color: #108a93;
   position: relative;
-  overflow: hidden;
+  
 
   &::before {
     background-color: #108a93;
@@ -34,6 +35,7 @@ body {
     @include scale-rotate(.8, 0);
     @include animation(spin 222s linear infinite);
   }
+
 }
 
 @include keyframes('spin') {

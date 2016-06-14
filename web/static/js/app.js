@@ -44,6 +44,22 @@ class App {
     // import madness es6 to coffee
     window.Socket = Socket;
     window.$ = $;
+
+
+    var $body = $('body');
+    var ratioHandler =  () => {
+        var ratio = this.calculateAspectRatio($body);
+        if (ratio > 2.125) {
+            console.log('bad ratio!');
+            $body.removeClass('rolling');
+        } else {
+            $body.addClass('rolling');
+            console.log('good ratio!');
+        }
+    };
+    $(window).resize(ratioHandler);
+    ratioHandler();
+
     let p=$('.pollpopulous');
     if (p.length>0) {
       let coverEditor = angular.module('Pollpopulous', [
@@ -127,6 +143,10 @@ class App {
   }
 
   static sanitize(msg) { return $("<div />").text(msg).html() }
+
+  static calculateAspectRatio($element) {
+    return $element.width() / $element.height();
+  }
 
   static appendMessage(message) {
     let $messages = $("#messages")
